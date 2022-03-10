@@ -1,30 +1,34 @@
 package products
 
 import (
+	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/ruiborda/shop/database"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 func IndexProducts(c *fiber.Ctx) error {
-
+	c.Set("Content-Type", "application/json; charset=utf-8")
 	m := database.Mongo{}
 	m.Open()
 	defer m.Close()
-	m.SetCollection("products")
 
-	query := bson.D{{"title", "Back to the Future"}}
-
-	result := m.FindOne(&query)
-
-	fmt.Printf("%s\n", result)
-
-	jsonData, err := json.MarshalIndent(result, "", "\t")
+	cursor, err := m.Database.Collection("products").Find(context.TODO(), bson.D{{}})
 	if err != nil {
-		panic(err)
+		return c.Status(500).SendString(err.Error())
 	}
-	fmt.Printf("%s\n", jsonData)
-	return c.Status(200).SendString("Products")
+
+	var results []Model
+	err1 := cursor.All(context.TODO(), &results)
+	if err1 != nil {
+		return c.Status(500).SendString(err1.Error())
+	}
+
+	marshal, err2 := json.Marshal(results)
+	if err2 != nil {
+		return c.Status(500).SendString(err2.Error())
+	}
+
+	return c.Status(200).SendString(string(marshal))
 }

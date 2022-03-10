@@ -27,23 +27,3 @@ func (m *Mongo) Close() {
 		panic(err)
 	}
 }
-
-/*func (m *Mongo) FindOne(b *bson.D) (bson.M, error) {
-	var result bson.M
-	collection := m.Database.Collection("products")
-	err := collection.FindOne(context.TODO(), b).Decode(&result)
-	if err == mongo.ErrNoDocuments {
-		return bson.M{"message": "Not found document"}, nil
-	}
-	if err != nil {
-		panic(err)
-	}
-	return result, err
-}
-
-func (m *Mongo) InsertOne(product products.Model) (*mongo.InsertOneResult, error) {
-	collection := m.Database.Collection("products")
-	result, err := collection.InsertOne(context.TODO(), product)
-	return result, err
-}
-*/

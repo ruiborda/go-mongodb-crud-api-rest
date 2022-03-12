@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
-	"github.com/ruiborda/shop/database"
+	"github.com/ruiborda/go-mongodb-crud-api-rest/database"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

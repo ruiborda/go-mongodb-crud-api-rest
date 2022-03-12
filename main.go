@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"github.com/ruiborda/shop/api/products"
-	"github.com/ruiborda/shop/middleware"
+	"github.com/ruiborda/go-mongodb-crud-api-rest/api/products"
+	"github.com/ruiborda/go-mongodb-crud-api-rest/middleware"
 )
 
 func main() {

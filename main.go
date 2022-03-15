@@ -22,10 +22,6 @@ func main() {
 
 	app.Mount("/products", products.Routes())
 
-	app.Get("/:name", func(c *fiber.Ctx) error {
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString("Hello " + c.Params("name"))
-	})
 	err := app.Listen(":3000")
 
 	if err != nil {

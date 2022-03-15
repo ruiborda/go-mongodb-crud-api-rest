@@ -2,7 +2,6 @@ package products
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/ruiborda/go-mongodb-crud-api-rest/database"
 	"go.mongodb.org/mongo-driver/bson"
@@ -25,10 +24,5 @@ func IndexProducts(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err1.Error())
 	}
 
-	marshal, err2 := json.Marshal(results)
-	if err2 != nil {
-		return c.Status(500).SendString(err2.Error())
-	}
-
-	return c.Status(200).SendString(string(marshal))
+	return c.Status(200).JSON(results)
 }

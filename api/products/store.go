@@ -2,30 +2,28 @@ package products
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/ruiborda/go-mongodb-crud-api-rest/database"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func StoreProducts(c *fiber.Ctx) error {
-	/*	product := new(Model)
-		if err := c.BodyParser(product); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
+	var product Model
+	err := c.BodyParser(&product)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
 
-		/*	product.ID = ""
+	//force generate new id
+	product.ID = primitive.NewObjectID()
 
-			// insert the record
-			insertionResult, err := collection.InsertOne(c.Context(), product)
-			if err != nil {
-				return c.Status(500).SendString(err.Error())
-			}
+	m := database.Mongo{}
+	m.Open()
+	defer m.Close()
 
-			// get the just inserted record in order to return it as response
-			filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
-			createdRecord := collection.FindOne(c.Context(), filter)
+	result, err2 := m.Database.Collection("products").InsertOne(c.Context(), product)
+	if err2 != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
-			// decode the Mongo record into Employee
-			createdEmployee := &Model{}
-			createdRecord.Decode(createdEmployee)
-	*/
-	// return the created Employee in JSON format*/
-	return c.Status(201).JSON(c.Body())
+	return c.Status(201).JSON(result)
 }
